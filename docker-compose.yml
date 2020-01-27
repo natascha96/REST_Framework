@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  django-app:
+    image: natascha/vokabeltrainer
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    environment:
+      PYTHONUNBUFFERED: 1
+
+    ports:
+    - 8000:8000
+    volumes:
+    - .:/app
+
+    working_dir: /app
+
+    

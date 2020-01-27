@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from vocabulary_trainer.models import VokabelList, Vokabel
+from .models import VokabelList, Vokabel
 
 
 # Vokabel, Vokabellisten, ListAccess

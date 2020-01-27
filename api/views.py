@@ -1,14 +1,14 @@
-from django.shortcuts import render
+from django.core.exceptions import ObjectDoesNotExist
 
 # Create your views here.
+from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.authentication import BasicAuthentication
 from rest_framework.views import APIView
-from vocabulary_trainer.models import ListAccess, Vokabel, VokabelList
+from .models import ListAccess, Vokabel, VokabelList
 from .serializers import VokabelListSerializer, VokabelSerializer
-
 
 
 class VocabularyListAPIView(APIView):
@@ -49,6 +49,11 @@ class VocabularyListAPIView(APIView):
 class VocabularyDetailListAPIView(APIView):
     authentication_classes = (BasicAuthentication,)
     permission_classes = (IsAuthenticated,)
+    #
+    # def get(self, request):
+    #     list_ids = ListAccess.objects.values_list('list').filter(user=request.user)
+    #     lists = VokabelList.objects.filter(id__in=list_ids).values()
+    #     return Response({"lists": lists})
 
     def put(self, request, pk):
         saved_vokabellist = get_object_or_404(VokabelList.objects.all(), pk=pk)
@@ -64,7 +69,9 @@ class VocabularyDetailListAPIView(APIView):
         vokabellist.delete()
         return Response({"message": "Vokbellist with id `{}` has been deleted.".format(pk)}, status=204)
 
-
+class UserAPIView(APIView):
+    def null_view(request):
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 class VocabularyAPIView(APIView):
 
